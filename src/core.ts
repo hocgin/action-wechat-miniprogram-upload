@@ -1,5 +1,5 @@
 import {Inputs, Outputs} from "./main";
-import {upload, preview} from "./uploadapi";
+import {upload, preview} from "./uploadcmd";
 import * as exec from "@actions/exec";
 
 export async function run(input: Inputs): Promise<Outputs> {
@@ -13,18 +13,15 @@ export async function run(input: Inputs): Promise<Outputs> {
         }
     };
     await exec.exec('npm', ['install', '-g', 'mp-ci']);
-    await exec.exec('mp-ci', ['-h'], options);
-
-
-    // let preview_qrcode;
-    // if (input.action_type === 'upload') {
-    //     await upload(input);
-    // } else if (input.action_type === 'preview') {
-    //     preview_qrcode = await preview(input);
-    // } else {
-    //     throw new Error(`unSupport action_type ${input.action_type}`);
-    // }
+    let preview_qrcode;
+    if (input.action_type === 'upload') {
+        await upload(input, options);
+    } else if (input.action_type === 'preview') {
+        preview_qrcode = await preview(input, options);
+    } else {
+        throw new Error(`unSupport action_type ${input.action_type}`);
+    }
     return {
-        // preview_qrcode
+        preview_qrcode
     };
 }
