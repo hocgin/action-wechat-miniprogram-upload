@@ -8,7 +8,7 @@ inputs:
   upload_key:
     required: true
     description: '私钥文件内容'
-  dist_path:
+  workspace:
     required: true
     description: '上传的代码目录'
   action_type:
