@@ -210,7 +210,7 @@ function upload(input, options) {
         if (input.proxy) {
             args.push(`--proxy ${input.proxy}`);
         }
-        yield exec.exec('mp-ci', ['upload', ...args], options);
+        yield exec.exec('npx', ['mp-ci', 'upload', input.workspace, ...args], options);
     });
 }
 exports.upload = upload;
@@ -242,7 +242,7 @@ function preview(input, options) {
         if (input.proxy) {
             args.push(`--proxy ${input.proxy}`);
         }
-        yield exec.exec('mp-ci', ['preview', ...args], options);
+        yield exec.exec('npx', ['mp-ci', 'preview', input.workspace, ...args], options);
         return String(fs_1.default.readFileSync(path_1.default.join(input.workspace, png)));
     });
 }
