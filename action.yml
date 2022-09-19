@@ -10,6 +10,7 @@ inputs:
     description: '私钥文件内容'
   workspace:
     required: true
+    default: ./
     description: '上传的代码目录'
   action_type:
     required: true

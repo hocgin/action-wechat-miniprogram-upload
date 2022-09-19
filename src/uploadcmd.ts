@@ -22,7 +22,7 @@ export async function upload(input: Inputs, options: any) {
     if (input.proxy) {
         args.push(`--proxy ${input.proxy}`);
     }
-    await exec.exec('mp-ci', ['upload', ...args], options);
+    await exec.exec('npx', ['mp-ci', 'upload', input.workspace, ...args], options);
 }
 
 export async function preview(input: Inputs, options: any) {
@@ -53,7 +53,7 @@ export async function preview(input: Inputs, options: any) {
         args.push(`--proxy ${input.proxy}`);
     }
 
-    await exec.exec('mp-ci', ['preview', ...args], options);
+    await exec.exec('npx', ['mp-ci', 'preview', input.workspace, ...args], options);
     return String(fs.readFileSync(path.join(input.workspace, png)));
 }
 
