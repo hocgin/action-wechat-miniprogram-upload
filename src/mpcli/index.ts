@@ -1,8 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const ci = require('miniprogram-ci')
-let {preview, Project, upload} = ci;
+import {preview, Project, upload} from 'miniprogram-ci';
 import {ProjectType} from 'miniprogram-ci/dist/@types/types';
 import {IInnerUploadResult} from 'miniprogram-ci/dist/@types/ci/upload';
 import {getFormatFileSize, getLastCommitLog, getPackageName} from './util';
@@ -91,7 +90,7 @@ export class Ci {
 
     public workspace: string = '';
 
-    public project: ProjectType | undefined;
+    public project: any | undefined;
 
     public projectConfig: ProjectConfig | undefined;
 
