@@ -15,7 +15,7 @@ inputs:
     required: true
     default: upload
     description: '作业类型: upload / preview'
-  project_type:
+  type:
     required: true
     default: miniProgram
     description: '项目类型: miniProgram | miniGame | miniProgramPlugin | miniGamePlugin'
@@ -26,7 +26,7 @@ inputs:
     required: true
     default: v1.0.0
     description: '发布版本号'
-  summer:
+  description:
     required: false
     default: '-'
     description: '发布简介'
