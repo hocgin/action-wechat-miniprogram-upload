@@ -52,6 +52,7 @@ function run(input) {
                 console.log('stderr', data.toString());
             }
         };
+        yield exec.exec('npm', ['install', '-g', 'mp-ci']);
         yield exec.exec('mp-ci', ['-h'], options);
         // let preview_qrcode;
         // if (input.action_type === 'upload') {
