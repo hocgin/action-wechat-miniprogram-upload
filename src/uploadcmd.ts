@@ -8,7 +8,8 @@ export async function upload(input: Inputs, options: any) {
     let keyfile = toKeyFile(input.upload_key);
     let args = [
         `--pkp ${keyfile}`,
-        `--type ${input.type}`
+        `--type ${input.type}`,
+        `--no-test`
     ];
     if (input.env) {
         args.push(`--env ${input.env}`);
@@ -32,7 +33,8 @@ export async function preview(input: Inputs, options: any) {
         `--pkp ${keyfile}`,
         `--qr base64`,
         `--qrDest ${pngfile}`,
-        `--type ${input.type}`
+        `--type ${input.type}`,
+        `--no-test`
     ];
     if (input.env) {
         args.push(`--env ${input.env}`);
