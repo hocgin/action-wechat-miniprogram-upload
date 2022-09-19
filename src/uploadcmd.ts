@@ -26,12 +26,12 @@ export async function upload(input: Inputs, options: any) {
 }
 
 export async function preview(input: Inputs, options: any) {
-    let png = 'preview.png';
+    let pngfile = path.join(process.cwd(), './preview.png');
     let keyfile = toKeyFile(input.upload_key);
     let args = [
         `--pkp ${keyfile}`,
         `--qr base64`,
-        `--qrDest ${png}`,
+        `--qrDest ${pngfile}`,
         `--type ${input.type}`
     ];
     if (input.env) {
@@ -54,11 +54,11 @@ export async function preview(input: Inputs, options: any) {
     }
 
     await exec.exec('npx', ['mp-ci', 'preview', input.workspace, ...args], options);
-    return String(fs.readFileSync(path.join(input.workspace, png)));
+    return String(fs.readFileSync(path.join(input.workspace, pngfile)));
 }
 
 function toKeyFile(keydata: string) {
-    let path = 'uploadkey.key';
-    fs.writeFileSync(path, keydata);
-    return path;
+    let fpath = path.join(process.cwd(), './uploadkey.key');
+    fs.writeFileSync(fpath, keydata);
+    return fpath;
 }
