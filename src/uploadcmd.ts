@@ -1,4 +1,4 @@
-import {Inputs} from "./main";
+import {debugPrintf, Inputs} from "./main";
 import fs from "fs";
 import path from "path";
 import * as exec from "@actions/exec";
@@ -58,6 +58,7 @@ export async function preview(input: Inputs, options: any) {
 }
 
 function toKeyFile(keydata: string) {
+    debugPrintf("keydata", keydata);
     let fpath = path.join(process.cwd(), './uploadkey.key');
     fs.writeFileSync(fpath, keydata);
     return fpath;
