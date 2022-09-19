@@ -1,11 +1,45 @@
-name: 'action-starter'
+name: 'action-wechat-project-publish'
 author: 'hocgin'
-description: '项目描述信息'
+description: '微信项目自动发布(小程序/小游戏/游戏插件/小程序插件)'
 inputs:
   debug:
     required: false
     description: 'debug mode'
-#outputs:
+  upload_key:
+    required: true
+    description: '私钥文件内容'
+  dist_path:
+    required: true
+    description: '上传的代码目录'
+  action_type:
+    required: true
+    default: upload
+    description: '作业类型: upload / preview'
+  project_type:
+    required: true
+    default: miniprogram
+    description: '项目类型: miniprogram / '
+  env:
+    required: true
+    default: dev
+    description: '发布环境'
+  version:
+    required: true
+    default: v1.0.0
+    description: '发布版本号'
+  summer:
+    required: false
+    default: '-'
+    description: '发布简介'
+  preview_pagepath:
+    required: false
+    description: '私钥文件内容'
+  preview_pagequery:
+    required: false
+    description: '私钥文件内容'
+outputs:
+  preview_qrcode:
+    description: '预览二维码'
 runs:
   using: node16
   main: dist/index.js

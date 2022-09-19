@@ -1,15 +1,16 @@
-import * as core from '@actions/core';
-import * as github from '@actions/github';
-import {
-    PullRequestEvent, PushEvent,
-    ReleaseEvent,
-} from '@octokit/webhooks-definitions/schema'
 import {Inputs, Outputs} from "./main";
+import {upload, preview} from "./uploadapi";
 
-export function run(input: Inputs): Outputs {
-    // const octokit = getOctokit(process.env.GITHUB_TOKEN!, {});
-    let context = github.context;
-
-    // TODO 写你的代码..
-    return {};
+export async function run(input: Inputs): Promise<Outputs> {
+    let preview_qrcode;
+    if (input.action_type === 'upload') {
+        await upload(input);
+    } else if (input.action_type === 'preview') {
+        preview_qrcode = await preview(input);
+    } else {
+        throw new Error(`unSupport action_type ${input.action_type}`);
+    }
+    return {
+        preview_qrcode
+    };
 }
