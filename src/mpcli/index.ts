@@ -1,10 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import {preview, Project, upload} from 'miniprogram-ci';
-import Table from 'cli-table3';
-import chalk from 'chalk';
-
-import ora from 'ora';
 import {ProjectType} from 'miniprogram-ci/dist/@types/types';
 import {IInnerUploadResult} from 'miniprogram-ci/dist/@types/ci/upload';
 import {getFormatFileSize, getLastCommitLog, getPackageName} from './util';
@@ -140,8 +136,8 @@ export class Ci {
 
                 return true;
             } catch (error) {
-                console.log(chalk.red('Load file failed'));
-                console.log(chalk.red(error));
+                console.log('Load file failed');
+                console.log(error);
                 return false;
             }
         }
@@ -160,14 +156,13 @@ export class Ci {
 
         if (!version) {
             try {
-                // eslint-disable-next-line global-require,import/no-dynamic-require
                 const pkg = require(path.resolve(this.workspace, 'package.json'));
 
                 version = pkg.version;
             } catch (error) {
                 version = '0.0.0';
-                console.error(chalk.red('Load package.json failed'));
-                console.error(chalk.red(error));
+                console.error('Load package.json failed');
+                console.error(error);
             }
         }
 
@@ -199,38 +194,31 @@ export class Ci {
     public printResult(version: string, desc: string, result: IInnerUploadResult) {
         const {subPackageInfo = [], pluginInfo = [], devPluginId = '无'} = result;
 
-        const table = new Table({
-            head: ['时间', '版本号', '项目备注'],
-        });
-        table.push([new Date().toLocaleString(), version, desc]);
-        console.log(table.toString());
+        console.log(`[发布信息]
+            时间: ${new Date().toLocaleString()}\n
+            版本号: ${version}\n
+            项目备注: ${desc}`);
 
-        console.log('包信息');
-
-        const packageTable = new Table({
-            head: ['类型', '大小'],
-        });
-
+        console.log('[包信息]');
         subPackageInfo.forEach((packageInfo: any) => {
             const formatSize = getFormatFileSize(packageInfo.size);
-            packageTable.push([getPackageName(packageInfo.name), formatSize.size + formatSize.measure]);
+            console.log(`
+            类型: ${getPackageName(packageInfo.name)}\n
+            大小: ${formatSize.size + formatSize.measure}
+            `);
         });
 
-        console.log(packageTable.toString());
-
         if (pluginInfo && pluginInfo.length) {
-            console.log('插件信息');
-
-            const pluginTable = new Table({
-                head: ['appid', '版本', '大小', 'devPluginId'],
-            });
-
+            console.log('[插件信息]');
             pluginInfo.forEach((pluginInfo: any) => {
                 const formatSize = getFormatFileSize(pluginInfo.size);
-                pluginTable.push([pluginInfo.pluginProviderAppid, pluginInfo.version, formatSize.size + formatSize.measure, devPluginId]);
+                console.log(`
+                appid: ${pluginInfo.pluginProviderAppid}\n
+                版本: ${pluginInfo.version}\n
+                大小: ${formatSize.size + formatSize.measure}\n
+                devPluginId: ${devPluginId}
+                `);
             });
-
-            console.log(pluginTable.toString());
         }
     }
 
@@ -246,7 +234,7 @@ export class Ci {
         if (this.project) {
             const info = await this.getTitleFromGit();
 
-            const spinner = ora('上传...').start();
+            console.log('上传...');
 
             try {
                 const uploadResult = await upload({
@@ -261,13 +249,13 @@ export class Ci {
                     robot: this.robot,
                 });
 
-                spinner.succeed('上传成功');
+                console.log('上传成功');
 
                 this.printResult(info.version, info.desc, uploadResult);
             } catch (error) {
-                spinner.fail('上传失败');
+                console.log('上传失败');
 
-                console.error(chalk.red(error));
+                console.error(error);
                 process.exit(1);
             }
         }
@@ -277,7 +265,7 @@ export class Ci {
         if (this.project) {
             const info = await this.getTitleFromGit();
 
-            const spinner = ora('预览..').start();
+            console.log('预览..')
 
             try {
                 const previewResult = await preview({
@@ -296,13 +284,13 @@ export class Ci {
                     robot: this.robot,
                 });
 
-                spinner.succeed('预览成功');
+                console.log('预览成功');
 
                 this.printResult(info.version, info.desc, previewResult);
             } catch (e: any) {
-                spinner.fail('预览失败');
+                console.log('预览失败');
 
-                console.error(chalk.red(e.message));
+                console.error(e.message);
 
                 process.exit(1);
             }
