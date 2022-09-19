@@ -50,7 +50,7 @@ function run(input) {
                 console.log('stdout', data.toString());
             },
             stderr: (data) => {
-                console.log('stderr', data.toString());
+                throw new Error(data.toString());
             }
         };
         yield exec.exec('npm', ['install', '-g', 'mp-ci']);
@@ -194,14 +194,23 @@ const exec = __importStar(__nccwpck_require__(990));
 function upload(input, options) {
     return __awaiter(this, void 0, void 0, function* () {
         let keyfile = toKeyFile(input.upload_key);
-        yield exec.exec('mp-ci', ['upload',
-            `--env ${input.env}`,
-            `--ver ${input.version}`,
-            `--desc ${input.description}`,
+        let args = [
             `--pkp ${keyfile}`,
-            `--proxy ${input.proxy}`,
             `--type ${input.type}`
-        ], options);
+        ];
+        if (input.env) {
+            args.push(`--env ${input.env}`);
+        }
+        if (input.version) {
+            args.push(`--ver ${input.version}`);
+        }
+        if (input.description) {
+            args.push(`--desc ${input.description}`);
+        }
+        if (input.proxy) {
+            args.push(`--proxy ${input.proxy}`);
+        }
+        yield exec.exec('mp-ci', ['upload', ...args], options);
     });
 }
 exports.upload = upload;
@@ -209,18 +218,31 @@ function preview(input, options) {
     return __awaiter(this, void 0, void 0, function* () {
         let png = 'preview.png';
         let keyfile = toKeyFile(input.upload_key);
-        yield exec.exec('mp-ci', ['preview',
-            `--env ${input.env}`,
-            `--ver ${input.version}`,
-            `--desc ${input.description}`,
+        let args = [
             `--pkp ${keyfile}`,
             `--qr base64`,
             `--qrDest ${png}`,
-            `--pagePath ${input.preview_pagepath}`,
-            `--searchQuery ${input.preview_pagequery}`,
-            `--proxy ${input.proxy}`,
             `--type ${input.type}`
-        ], options);
+        ];
+        if (input.env) {
+            args.push(`--env ${input.env}`);
+        }
+        if (input.version) {
+            args.push(`--ver ${input.version}`);
+        }
+        if (input.description) {
+            args.push(`--desc ${input.description}`);
+        }
+        if (input.preview_pagepath) {
+            args.push(`--pagePath ${input.preview_pagepath}`);
+        }
+        if (input.preview_pagequery) {
+            args.push(`--searchQuery ${input.preview_pagequery}`);
+        }
+        if (input.proxy) {
+            args.push(`--proxy ${input.proxy}`);
+        }
+        yield exec.exec('mp-ci', ['preview', ...args], options);
         return String(fs_1.default.readFileSync(path_1.default.join(input.workspace, png)));
     });
 }
