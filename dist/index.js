@@ -40,7 +40,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
-const exec = __importStar(__nccwpck_require__(514));
+const uploadcmd_1 = __nccwpck_require__(514);
+const exec = __importStar(__nccwpck_require__(990));
 function run(input) {
     return __awaiter(this, void 0, void 0, function* () {
         const options = {};
@@ -53,17 +54,18 @@ function run(input) {
             }
         };
         yield exec.exec('npm', ['install', '-g', 'mp-ci']);
-        yield exec.exec('mp-ci', ['-h'], options);
-        // let preview_qrcode;
-        // if (input.action_type === 'upload') {
-        //     await upload(input);
-        // } else if (input.action_type === 'preview') {
-        //     preview_qrcode = await preview(input);
-        // } else {
-        //     throw new Error(`unSupport action_type ${input.action_type}`);
-        // }
+        let preview_qrcode;
+        if (input.action_type === 'upload') {
+            yield (0, uploadcmd_1.upload)(input, options);
+        }
+        else if (input.action_type === 'preview') {
+            preview_qrcode = yield (0, uploadcmd_1.preview)(input, options);
+        }
+        else {
+            throw new Error(`unSupport action_type ${input.action_type}`);
+        }
         return {
-        // preview_qrcode
+            preview_qrcode
         };
     });
 }
@@ -140,6 +142,93 @@ try {
 }
 catch (error) {
     core.setFailed(error === null || error === void 0 ? void 0 : error.message);
+}
+
+
+/***/ }),
+
+/***/ 514:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.preview = exports.upload = void 0;
+const fs_1 = __importDefault(__nccwpck_require__(147));
+const path_1 = __importDefault(__nccwpck_require__(17));
+const exec = __importStar(__nccwpck_require__(990));
+function upload(input, options) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let keyfile = toKeyFile(input.upload_key);
+        yield exec.exec('mp-ci', ['upload',
+            `--env ${input.env}`,
+            `--ver ${input.version}`,
+            `--desc ${input.description}`,
+            `--pkp ${keyfile}`,
+            `--proxy ${input.proxy}`,
+            `--type ${input.type}`
+        ], options);
+    });
+}
+exports.upload = upload;
+function preview(input, options) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let png = 'preview.png';
+        let keyfile = toKeyFile(input.upload_key);
+        yield exec.exec('mp-ci', ['preview',
+            `--env ${input.env}`,
+            `--ver ${input.version}`,
+            `--desc ${input.description}`,
+            `--pkp ${keyfile}`,
+            `--qr base64`,
+            `--qrDest ${png}`,
+            `--pagePath ${input.preview_pagepath}`,
+            `--searchQuery ${input.preview_pagequery}`,
+            `--proxy ${input.proxy}`,
+            `--type ${input.type}`
+        ], options);
+        return String(fs_1.default.readFileSync(path_1.default.join(input.workspace, png)));
+    });
+}
+exports.preview = preview;
+function toKeyFile(keydata) {
+    let path = 'uploadkey.key';
+    fs_1.default.writeFileSync(path, keydata);
+    return path;
 }
 
 
@@ -534,7 +623,7 @@ exports.toCommandValue = toCommandValue;
 
 /***/ }),
 
-/***/ 514:
+/***/ 990:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 
