@@ -17,11 +17,10 @@ inputs:
     description: '作业类型: upload / preview'
   project_type:
     required: true
-    default: miniprogram
-    description: '项目类型: miniprogram / '
+    default: miniProgram
+    description: '项目类型: miniProgram | miniGame | miniProgramPlugin | miniGamePlugin'
   env:
-    required: true
-    default: dev
+    required: false
     description: '发布环境'
   version:
     required: true
