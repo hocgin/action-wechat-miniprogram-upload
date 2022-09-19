@@ -9,7 +9,7 @@ export async function run(input: Inputs): Promise<Outputs> {
             console.log('stdout', data.toString());
         },
         stderr: (data: Buffer) => {
-            console.log('stderr', data.toString());
+            throw new Error(data.toString());
         }
     };
     await exec.exec('npm', ['install', '-g', 'mp-ci']);
