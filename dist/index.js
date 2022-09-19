@@ -197,8 +197,7 @@ function upload(input, options) {
         let keyfile = toKeyFile(input.upload_key);
         let args = [
             `--pkp ${keyfile}`,
-            `--type ${input.type}`,
-            `--no-test`
+            `--type ${input.type}`
         ];
         if (input.env) {
             args.push(`--env ${input.env}`);
@@ -224,8 +223,7 @@ function preview(input, options) {
             `--pkp ${keyfile}`,
             `--qr base64`,
             `--qrDest ${pngfile}`,
-            `--type ${input.type}`,
-            `--no-test`
+            `--type ${input.type}`
         ];
         if (input.env) {
             args.push(`--env ${input.env}`);
