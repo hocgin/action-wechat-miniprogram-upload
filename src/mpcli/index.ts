@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import {preview, Project, upload} from 'miniprogram-ci';
+
+const ci = require('miniprogram-ci')
+let {preview, Project, upload} = ci;
 import {ProjectType} from 'miniprogram-ci/dist/@types/types';
 import {IInnerUploadResult} from 'miniprogram-ci/dist/@types/ci/upload';
 import {getFormatFileSize, getLastCommitLog, getPackageName} from './util';
