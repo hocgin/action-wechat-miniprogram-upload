@@ -1,0 +1,11 @@
+name: 'action-starter'
+author: 'hocgin'
+description: '项目描述信息'
+inputs:
+  debug:
+    required: false
+    description: 'debug mode'
+#outputs:
+runs:
+  using: node16
+  main: dist/index.js
