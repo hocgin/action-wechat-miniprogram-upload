@@ -91,7 +91,7 @@ export class Ci {
 
     public workspace: string = '';
 
-    public project: Project | undefined;
+    public project: ProjectType | undefined;
 
     public projectConfig: ProjectConfig | undefined;
 
