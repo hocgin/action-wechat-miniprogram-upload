@@ -10,9 +10,11 @@
   "author": "hocgin",
   "dependencies": {
     "@actions/core": "^1.2.6",
+    "@actions/exec": "^1.1.1",
     "@actions/github": "^4.0.0",
     "@octokit/webhooks-definitions": "^3.67.3",
-    "miniprogram-ci": "^1.8.35"
+    "miniprogram-ci": "^1.8.35",
+    "mp-ci": "^1.2.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.19.0",
