@@ -216,12 +216,12 @@ function upload(input, options) {
 exports.upload = upload;
 function preview(input, options) {
     return __awaiter(this, void 0, void 0, function* () {
-        let png = 'preview.png';
+        let pngfile = path_1.default.join(process.cwd(), './preview.png');
         let keyfile = toKeyFile(input.upload_key);
         let args = [
             `--pkp ${keyfile}`,
             `--qr base64`,
-            `--qrDest ${png}`,
+            `--qrDest ${pngfile}`,
             `--type ${input.type}`
         ];
         if (input.env) {
@@ -243,14 +243,14 @@ function preview(input, options) {
             args.push(`--proxy ${input.proxy}`);
         }
         yield exec.exec('npx', ['mp-ci', 'preview', input.workspace, ...args], options);
-        return String(fs_1.default.readFileSync(path_1.default.join(input.workspace, png)));
+        return String(fs_1.default.readFileSync(path_1.default.join(input.workspace, pngfile)));
     });
 }
 exports.preview = preview;
 function toKeyFile(keydata) {
-    let path = 'uploadkey.key';
-    fs_1.default.writeFileSync(path, keydata);
-    return path;
+    let fpath = path_1.default.join(process.cwd(), './uploadkey.key');
+    fs_1.default.writeFileSync(fpath, keydata);
+    return fpath;
 }
 
 
