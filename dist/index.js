@@ -135,7 +135,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Ci = void 0;
 const fs_1 = __importDefault(__nccwpck_require__(147));
 const path_1 = __importDefault(__nccwpck_require__(17));
-const miniprogram_ci_1 = __nccwpck_require__(350);
+const ci = __nccwpck_require__(350);
+let { preview, Project, upload } = ci;
 const util_1 = __nccwpck_require__(105);
 function fsExistsSync(path) {
     try {
@@ -158,7 +159,7 @@ class Ci {
         this.robot = robot;
         // 加载配置文件
         if (this.loadProjectConfig(path_1.default.join(workspace, 'project.config.json')) && this.projectConfig) {
-            this.project = new miniprogram_ci_1.Project({
+            this.project = new Project({
                 appid: this.projectConfig.appid,
                 type: type,
                 projectPath: workspace,
@@ -267,7 +268,7 @@ class Ci {
                 const info = yield this.getTitleFromGit();
                 console.log('上传...');
                 try {
-                    const uploadResult = yield (0, miniprogram_ci_1.upload)({
+                    const uploadResult = yield upload({
                         project: this.project,
                         version: info.version,
                         desc: info.desc,
@@ -295,7 +296,7 @@ class Ci {
                 const info = yield this.getTitleFromGit();
                 console.log('预览..');
                 try {
-                    const previewResult = yield (0, miniprogram_ci_1.preview)({
+                    const previewResult = yield preview({
                         project: this.project,
                         version: info.version,
                         desc: info.desc,
