@@ -135,7 +135,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Ci = void 0;
 const fs_1 = __importDefault(__nccwpck_require__(147));
 const path_1 = __importDefault(__nccwpck_require__(17));
-const miniprogram_ci_1 = __nccwpck_require__(350);
+const ci = __nccwpck_require__(350);
+let { preview, Project, upload } = ci;
 const util_1 = __nccwpck_require__(105);
 function fsExistsSync(path) {
     try {
@@ -158,7 +159,7 @@ class Ci {
         this.robot = robot;
         // 加载配置文件
         if (this.loadProjectConfig(path_1.default.join(workspace, 'project.config.json')) && this.projectConfig) {
-            this.project = new miniprogram_ci_1.Project({
+            this.project = new Project({
                 appid: this.projectConfig.appid,
                 type: type,
                 projectPath: workspace,
@@ -267,7 +268,7 @@ class Ci {
                 const info = yield this.getTitleFromGit();
                 console.log('上传...');
                 try {
-                    const uploadResult = yield (0, miniprogram_ci_1.upload)({
+                    const uploadResult = yield upload({
                         project: this.project,
                         version: info.version,
                         desc: info.desc,
@@ -295,7 +296,7 @@ class Ci {
                 const info = yield this.getTitleFromGit();
                 console.log('预览..');
                 try {
-                    const previewResult = yield (0, miniprogram_ci_1.preview)({
+                    const previewResult = yield preview({
                         project: this.project,
                         version: info.version,
                         desc: info.desc,
@@ -1675,7 +1676,9 @@ module.exports = exports;
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 !function(require, directRequire){
-"use strict";Object.defineProperty(exports, "__esModule", ({value:!0})),exports.getWhiteExtList=exports.analyseCode=exports.getLatestVersion=exports.uploadJsServer=exports.cloud=exports.getDevSourceMap=exports.proxy=exports.packNpmManually=exports.packNpm=exports.getCompiledResult=exports.preview=exports.upload=exports.Project=void 0;const tslib_1=require("tslib"),project_1=require("./ci/project");Object.defineProperty(exports, "Project", ({enumerable:!0,get:function(){return project_1.Project}}));const upload_1=require("./ci/upload"),preview_1=require("./ci/preview"),getDevSourceMap_1=require("./ci/getDevSourceMap"),packnpm_1=require("./core/npm/packnpm");Object.defineProperty(exports, "packNpm", ({enumerable:!0,get:function(){return packnpm_1.packNpm}})),Object.defineProperty(exports, "packNpmManually", ({enumerable:!0,get:function(){return packnpm_1.packNpmManually}}));const request_1=require("./utils/request");Object.defineProperty(exports, "proxy", ({enumerable:!0,get:function(){return request_1.setCiProxy}}));const uploadFunction_1=require("./cloud/uploadFunction"),createTimeTrigger_1=require("./cloud/createTimeTrigger"),uploadContainer_1=require("./cloud/uploadContainer"),uploadFile_1=require("./cloud/uploadFile"),report_1=require("./utils/report"),jsserver_1=require("./ci/jsserver");Object.defineProperty(exports, "uploadJsServer", ({enumerable:!0,get:function(){return jsserver_1.uploadJsServer}}));const code_analyse_1=require("./ci/code-analyse");Object.defineProperty(exports, "analyseCode", ({enumerable:!0,get:function(){return code_analyse_1.analyseCode}}));const getCompiledResult_1=require("./ci/getCompiledResult");Object.defineProperty(exports, "getCompiledResult", ({enumerable:!0,get:function(){return getCompiledResult_1.getCompiledResult}}));const getLatestVersion_1=require("./ci/getLatestVersion");Object.defineProperty(exports, "getLatestVersion", ({enumerable:!0,get:function(){return getLatestVersion_1.getLatestVersion}}));const white_ext_list_1=require("./utils/white_ext_list");Object.defineProperty(exports, "getWhiteExtList", ({enumerable:!0,get:function(){return white_ext_list_1.getWhiteExtList}})),exports.upload=(0,report_1.wrapReport)("upload",upload_1.upload),exports.preview=(0,report_1.wrapReport)("preview",preview_1.preview),exports.getDevSourceMap=(0,report_1.wrapReport)("getDevSourceMap",getDevSourceMap_1.getDevSourceMap),exports.cloud={uploadFunction:uploadFunction_1.uploadFunction,createTimeTrigger:createTimeTrigger_1.createTimeTrigger,uploadStaticStorage:e=>(0,uploadFile_1.uploadFiles)(e,"staticstorage"),uploadStorage:e=>(0,uploadFile_1.uploadFiles)(e,"storage"),uploadContainer:uploadContainer_1.uploadContainer},(0,tslib_1.__exportStar)(require("./core"),exports),(0,tslib_1.__exportStar)(require("./summer"),exports);
+"use strict";Object.defineProperty(exports, "__esModule", ({value:!0})),
+        exports.getWhiteExtList=exports.analyseCode=exports.getLatestVersion=exports.uploadJsServer=exports.cloud=exports.getDevSourceMap=exports.proxy=exports.packNpmManually=exports.packNpm=exports.getCompiledResult=exports.preview=exports.upload=exports.Project=void 0;const tslib_1=require("tslib"),
+        project_1=require("./ci/project");Object.defineProperty(exports, "Project", ({enumerable:!0,get:function(){return project_1.Project}}));const upload_1=require("./ci/upload"),preview_1=require("./ci/preview"),getDevSourceMap_1=require("./ci/getDevSourceMap"),packnpm_1=require("./core/npm/packnpm");Object.defineProperty(exports, "packNpm", ({enumerable:!0,get:function(){return packnpm_1.packNpm}})),Object.defineProperty(exports, "packNpmManually", ({enumerable:!0,get:function(){return packnpm_1.packNpmManually}}));const request_1=require("./utils/request");Object.defineProperty(exports, "proxy", ({enumerable:!0,get:function(){return request_1.setCiProxy}}));const uploadFunction_1=require("./cloud/uploadFunction"),createTimeTrigger_1=require("./cloud/createTimeTrigger"),uploadContainer_1=require("./cloud/uploadContainer"),uploadFile_1=require("./cloud/uploadFile"),report_1=require("./utils/report"),jsserver_1=require("./ci/jsserver");Object.defineProperty(exports, "uploadJsServer", ({enumerable:!0,get:function(){return jsserver_1.uploadJsServer}}));const code_analyse_1=require("./ci/code-analyse");Object.defineProperty(exports, "analyseCode", ({enumerable:!0,get:function(){return code_analyse_1.analyseCode}}));const getCompiledResult_1=require("./ci/getCompiledResult");Object.defineProperty(exports, "getCompiledResult", ({enumerable:!0,get:function(){return getCompiledResult_1.getCompiledResult}}));const getLatestVersion_1=require("./ci/getLatestVersion");Object.defineProperty(exports, "getLatestVersion", ({enumerable:!0,get:function(){return getLatestVersion_1.getLatestVersion}}));const white_ext_list_1=require("./utils/white_ext_list");Object.defineProperty(exports, "getWhiteExtList", ({enumerable:!0,get:function(){return white_ext_list_1.getWhiteExtList}})),exports.upload=(0,report_1.wrapReport)("upload",upload_1.upload),exports.preview=(0,report_1.wrapReport)("preview",preview_1.preview),exports.getDevSourceMap=(0,report_1.wrapReport)("getDevSourceMap",getDevSourceMap_1.getDevSourceMap),exports.cloud={uploadFunction:uploadFunction_1.uploadFunction,createTimeTrigger:createTimeTrigger_1.createTimeTrigger,uploadStaticStorage:e=>(0,uploadFile_1.uploadFiles)(e,"staticstorage"),uploadStorage:e=>(0,uploadFile_1.uploadFiles)(e,"storage"),uploadContainer:uploadContainer_1.uploadContainer},(0,tslib_1.__exportStar)(require("./core"),exports),(0,tslib_1.__exportStar)(require("./summer"),exports);
 }(__nccwpck_require__(772)(require), require)
 
 /***/ }),
@@ -1708,7 +1711,7 @@ module.exports = require("path");
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __nccwpck_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -1722,7 +1725,7 @@ module.exports = require("path");
 /******/ 			loaded: false,
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		var threw = true;
 /******/ 		try {
@@ -1731,14 +1734,14 @@ module.exports = require("path");
 /******/ 		} finally {
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
 /******/ 		}
-/******/ 	
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/node module decorator */
 /******/ 	(() => {
@@ -1748,18 +1751,18 @@ module.exports = require("path");
 /******/ 			return module;
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/compat */
-/******/ 	
+/******/
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
-/******/ 	
+/******/
 /************************************************************************/
-/******/ 	
+/******/
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
 /******/ 	var __webpack_exports__ = __nccwpck_require__(109);
 /******/ 	module.exports = __webpack_exports__;
-/******/ 	
+/******/
 /******/ })()
 ;

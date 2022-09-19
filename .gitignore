@@ -1,6 +1,5 @@
 target/
 .idea/
-lib/
 *.iws
 *.iml
 *.ipr
