@@ -12,6 +12,7 @@ export async function run(input: Inputs): Promise<Outputs> {
             console.log('stderr', data.toString());
         }
     };
+    await exec.exec('npm', ['install', '-g', 'mp-ci']);
     await exec.exec('mp-ci', ['-h'], options);
 
 
