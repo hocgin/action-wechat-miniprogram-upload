@@ -1,8 +1,8 @@
 import {Inputs} from "./main";
 import fs from "fs";
 
-const Ci = require('mp-ci/lib');
 import path from "path";
+import {Ci} from "./mpcli";
 
 
 export async function createCi(input: Inputs) {

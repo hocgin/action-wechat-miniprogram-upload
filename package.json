@@ -12,7 +12,7 @@
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
     "@octokit/webhooks-definitions": "^3.67.3",
-    "mp-ci": "^1.2.1"
+    "miniprogram-ci": "^1.8.35"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.19.0",

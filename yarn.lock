@@ -6068,7 +6068,7 @@ minimist@^1.2.6:
   resolved "https://registry.npmjs.org/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
 
-miniprogram-ci@^1.0.30:
+miniprogram-ci@^1.0.30, miniprogram-ci@^1.8.35:
   version "1.8.35"
   resolved "https://registry.npmjs.org/miniprogram-ci/-/miniprogram-ci-1.8.35.tgz#03e39c1ca0375a1eb8e7f840715b71da35158064"
   integrity sha512-Pzv9I5SR+yVGztwoz9/3CesEBlb1jgbVv8AJB7QLzZiYHOU+NebwaRKfMumarJAEHzMVFOJmKaQA8bXDFprLtA==
