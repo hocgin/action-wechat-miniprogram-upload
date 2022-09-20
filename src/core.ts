@@ -12,7 +12,6 @@ export async function run(input: Inputs): Promise<Outputs> {
             throw new Error(data.toString());
         }
     };
-    await exec.exec('npm', ['install', '-g', 'mp-ci']);
     let preview_qrcode;
     if (input.action_type === 'upload') {
         await upload(input, options);
