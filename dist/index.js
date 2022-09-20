@@ -192,13 +192,12 @@ function upload(input, options) {
 exports.upload = upload;
 function preview(input, options) {
     return __awaiter(this, void 0, void 0, function* () {
-        let pngpath = './preview.png';
-        let pngfile = path_1.default.join(input.workspace, pngpath);
+        let pngfile = path_1.default.join(input.workspace, './preview.png');
         let keyfile = toKeyFile(input.workspace, input.upload_key);
         let args = [
             `--pkp=${keyfile}`,
             `--qr=base64`,
-            `--qrDest=${pngpath}`,
+            `--qrDest=${pngfile}`,
             `--type=${input.type}`
         ];
         if (input.env) {
@@ -226,8 +225,8 @@ function preview(input, options) {
 exports.preview = preview;
 function toKeyFile(workspace, keydata) {
     (0, main_1.debugPrintf)("keydata", keydata);
-    let fpath = './uploadkey.key';
-    fs_1.default.writeFileSync(path_1.default.join(workspace, fpath), keydata);
+    let fpath = path_1.default.join(workspace, './uploadkey.key');
+    fs_1.default.writeFileSync(fpath, keydata);
     return fpath;
 }
 
