@@ -26,7 +26,7 @@ function run(input) {
                 console.log('stdout', data.toString());
             },
             stderr: (data) => {
-                throw new Error(data.toString());
+                console.error(data.toString());
             }
         };
         let preview_qrcode;
