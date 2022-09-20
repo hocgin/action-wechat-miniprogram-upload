@@ -5,7 +5,7 @@ import * as exec from "@actions/exec";
 
 
 export async function upload(input: Inputs, options: any) {
-    let keyfile = toKeyFile(input.upload_key);
+    let keyfile = toKeyFile(input.workspace, input.upload_key);
     let args = [
         `--pkp ${keyfile}`,
         `--type ${input.type}`
@@ -26,12 +26,13 @@ export async function upload(input: Inputs, options: any) {
 }
 
 export async function preview(input: Inputs, options: any) {
-    let pngfile = path.join(process.cwd(), './preview.png');
-    let keyfile = toKeyFile(input.upload_key);
+    let pngpath = './preview.png';
+    let pngfile = path.join(input.workspace, pngpath);
+    let keyfile = toKeyFile(input.workspace, input.upload_key);
     let args = [
         `--pkp ${keyfile}`,
         `--qr base64`,
-        `--qrDest ${pngfile}`,
+        `--qrDest ${pngpath}`,
         `--type ${input.type}`
     ];
     if (input.env) {
@@ -57,9 +58,9 @@ export async function preview(input: Inputs, options: any) {
     return String(fs.readFileSync(path.join(input.workspace, pngfile)));
 }
 
-function toKeyFile(keydata: string) {
+function toKeyFile(workspace: string, keydata: string) {
     debugPrintf("keydata", keydata);
-    let fpath = path.join(process.cwd(), './uploadkey.key');
-    fs.writeFileSync(fpath, keydata);
+    let fpath = './uploadkey.key';
+    fs.writeFileSync(path.join(workspace, fpath), keydata);
     return fpath;
 }

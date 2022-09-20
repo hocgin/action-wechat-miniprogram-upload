@@ -1,1 +1,1 @@
-# action-wechat-project-publish
+# action-wechat-miniprogram-upload
