@@ -1,5 +1,5 @@
 {
-  "name": "action-wechat-project-publish",
+  "name": "action-wechat-miniprogram-upload",
   "version": "1.0.0",
   "description": "action-env",
   "main": "dist/index.js",

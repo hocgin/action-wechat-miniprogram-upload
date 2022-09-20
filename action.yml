@@ -1,4 +1,4 @@
-name: 'action-wechat-project-publish'
+name: 'action-wechat-miniprogram-upload'
 author: 'hocgin'
 description: '微信项目自动发布(小程序/小游戏/游戏插件/小程序插件)'
 inputs:
