@@ -29,7 +29,6 @@ inputs:
     description: '发布版本号'
   description:
     required: false
-    default: '-'
     description: '发布简介'
   preview_pagepath:
     required: false
