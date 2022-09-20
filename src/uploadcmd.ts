@@ -26,13 +26,12 @@ export async function upload(input: Inputs, options: any) {
 }
 
 export async function preview(input: Inputs, options: any) {
-    let pngpath = './preview.png';
-    let pngfile = path.join(input.workspace, pngpath);
+    let pngfile = path.join(input.workspace, './preview.png');
     let keyfile = toKeyFile(input.workspace, input.upload_key);
     let args = [
         `--pkp=${keyfile}`,
         `--qr=base64`,
-        `--qrDest=${pngpath}`,
+        `--qrDest=${pngfile}`,
         `--type=${input.type}`
     ];
     if (input.env) {
@@ -60,7 +59,7 @@ export async function preview(input: Inputs, options: any) {
 
 function toKeyFile(workspace: string, keydata: string) {
     debugPrintf("keydata", keydata);
-    let fpath = './uploadkey.key';
-    fs.writeFileSync(path.join(workspace, fpath), keydata);
+    let fpath = path.join(workspace, './uploadkey.key');
+    fs.writeFileSync(fpath, keydata);
     return fpath;
 }
