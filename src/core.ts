@@ -1,6 +1,5 @@
 import {Inputs, Outputs} from "./main";
 import {upload, preview} from "./uploadcmd";
-import * as exec from "@actions/exec";
 
 export async function run(input: Inputs): Promise<Outputs> {
     const options: any = {};
@@ -9,7 +8,7 @@ export async function run(input: Inputs): Promise<Outputs> {
             console.log('stdout', data.toString());
         },
         stderr: (data: Buffer) => {
-            throw new Error(data.toString());
+            console.error(data.toString());
         }
     };
     let preview_qrcode;
